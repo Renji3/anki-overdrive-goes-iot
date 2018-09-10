@@ -18,7 +18,6 @@ void disconnectCars(int sig) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("CAlled");
     QCoreApplication a(argc, argv);
 
     qRegisterMetaType<MqttMessage>("MqttMessage");

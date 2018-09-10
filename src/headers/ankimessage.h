@@ -36,6 +36,7 @@ public:
         SDK_MODE = 0x90
     };
 
+
     // Create AnkiMessage from response/existing message
     explicit AnkiMessage(QByteArray response);
 
@@ -78,6 +79,8 @@ public:
 
     uint8_t getLeftWheelDisplacement();
     uint8_t getRightWheelDisplacement();
+
+    QString getReadableMessage();
 
     int getNumBits();
     bool reverseDriving();

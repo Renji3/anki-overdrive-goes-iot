@@ -11,13 +11,13 @@ CONFIG += debug
 
 TEMPLATE = app
 TARGET = build/ankioverdrive
-INCLUDEPATH += .
+#INCLUDEPATH += .
 
 LIBS += -lmosquittopp
 
 LIBS += -L/usr/lib
 
-INCLUDEPATH += /usr/include
+INCLUDEPATH += /usr/include/
 
 # Input
 SOURCES += src/main.cpp \

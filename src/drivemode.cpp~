@@ -18,6 +18,7 @@
 
 
 DriveMode::DriveMode(QObject *parent) : QObject(parent) {
+
     uuid = QUuid::createUuid();
 
     lanes << 2 << 7 << 12 << 17;
@@ -32,7 +33,6 @@ DriveMode::DriveMode(QObject *parent) : QObject(parent) {
     connect(gamepadManager, SIGNAL(driveRight(Racecar*, bool)), this, SLOT(driveRight(Racecar*, bool)));
     connect(gamepadManager, SIGNAL(acceleratorChanged(Racecar*, double)), this, SLOT(acceleratorChanged(Racecar*, double)));
     connect(gamepadManager, SIGNAL(changeLane(Racecar*, double)), this, SLOT(changeLane(Racecar*, double)));
-    connect(gamepadManager, SIGNAL(scanTrack()), this, SLOT(scanTrack()));
 
     gamepadManager->start();
 
@@ -40,6 +40,7 @@ DriveMode::DriveMode(QObject *parent) : QObject(parent) {
         racecarList.append(new Racecar(this));
     }
 
+    printf("CALLED")
     bluetoothController = new BluetoothController(racecarList, this);
 
     foreach (Racecar* racecar, racecarList) {
@@ -299,9 +300,6 @@ void DriveMode::acceleratorChanged(Racecar *racecar, double value) {
 void DriveMode::trackScanCompleted(Track track) {
     TragediyImplementation::clearLocationTable();
 
-    qDebug("TRACKSCAN COMPLEED");
-    track.printTrack();
-
     Racecar* racecar = static_cast<Racecar*>(QObject::sender());
 
     sendMessage("[" + racecar->getAddress().toString() + "]>> TRACK SCAN COMPLETED: " + track.getTrackString() + ".");
@@ -514,20 +512,6 @@ void DriveMode::onMqttMessage(MqttMessage mqttMessage) {
             }
         }
     }
-}
-
-void DriveMode::scanTrack(){
-	Racecar* racecar = 0;
-	foreach (Racecar* tmpRacecar, racecarList) {
-		if (tmpRacecar->isOnTrack() && (!tmpRacecar->ignoreInputs() |  !tmpRacecar->isCharging())) {
-			qDebug("SCANNING TRACK INITIATED");
-//			racecar->ignoreInputs(true);
-			tmpRacecar->scanTrack();
-			return;
-		}
-
-		racecar = tmpRacecar;
-	}
 }
 
 Racecar* DriveMode::getRacecarByAddress(QBluetoothAddress address) {

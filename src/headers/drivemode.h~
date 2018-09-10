@@ -19,7 +19,7 @@ class DriveMode : public QObject {
     Q_OBJECT
 private:
     // Configuration:
-    const bool enableMqtt = true;
+    const bool enableMqtt = false;
 
     const QString brokerIp = "127.0.0.1";
     const int brokerPort = 1883;
@@ -33,8 +33,8 @@ private:
 
     const int numberOfRacecars = 1;
 
-    uint16_t maxVelocity = 600;
-    uint16_t nitroVelocity = 800;
+    uint16_t maxVelocity = 1000;
+    uint16_t nitroVelocity = 1500;
     int acceleratorTolerance = 100;
 
 
@@ -92,8 +92,6 @@ public slots:
     void velocityUpdate();
 
     void onMqttMessage(MqttMessage mqttMessage);
-
-    void scanTrack();
 };
 
 #endif // DRIVEMODE_H
